@@ -1,0 +1,6 @@
+request_test.sh
+/node_modules
+.env
+/public/*.js
+*.js
+docker-compose.yml

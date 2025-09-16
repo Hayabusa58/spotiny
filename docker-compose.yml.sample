@@ -1,0 +1,9 @@
+services:
+  spotiny:
+    image: spotiny:latest
+    container_name: spotiny
+    ports:
+      - 3000:3000
+    environment:
+      SPOTIFY_CLIENT_ID: $SPOTIFY_CLIENT_ID
+      SPOTIFY_CLIENT_SECRET: $SPOTIFY_CLIENT_SECRET

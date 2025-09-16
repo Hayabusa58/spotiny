@@ -1,0 +1,62 @@
+interface Track {
+  id: string;
+  title: string;
+  artist: string;
+  url: string;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('searchForm') as HTMLFormElement;
+  const trackSelect = document.getElementById('trackSelect') as HTMLSelectElement;
+  const resultArea = document.getElementById('resultArea') as HTMLTextAreaElement;
+  const trackInput = document.getElementById('trackInput') as HTMLInputElement;
+  const hasUrlCheckBox = document.getElementById('hasUrl') as HTMLInputElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const trackName = trackInput.value;
+    const res = await fetch('/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ track: trackName })
+    });
+
+    const data = await res.json();
+
+    trackSelect.innerHTML = '<option value="">-- 検索結果から選択 --</option>';
+
+    if (data.tracks && data.tracks.length > 0) {
+      data.tracks.forEach((track: Track) => {
+        const option = document.createElement('option');
+        option.value = JSON.stringify(track);
+        option.textContent = `${track.title} - ${track.artist}`;
+        trackSelect.appendChild(option);
+      });
+
+      resultArea.value = '候補が見つかりました。';
+    } else {
+      resultArea.value = '曲が見つかりませんでした。';
+    }
+  });
+
+  trackSelect.addEventListener('change', () => {
+    const selected = trackSelect.value;
+    if (!selected) {
+      resultArea.value = '';
+      return;
+    }
+
+    const parsed: Track = JSON.parse(selected);
+    // console.log(parsed)
+    const hasUrl = hasUrlCheckBox.checked;
+    if (hasUrl) {
+        resultArea.value = `${parsed.title} - ${parsed.artist}\n${parsed.url}`;
+    } else {
+       resultArea.value = `${parsed.title} - ${parsed.artist}`; 
+    }
+    
+  });
+});

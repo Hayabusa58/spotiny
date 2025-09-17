@@ -57,7 +57,7 @@ app.post('/search', searchLimiter, async (req, res) => {
       params: {
         q: trackName,
         type: 'track',
-        limit: 10
+        limit: 30
       }
     });
     // console.log(result.data.tracks.items)

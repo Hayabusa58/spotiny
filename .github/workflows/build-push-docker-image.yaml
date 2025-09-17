@@ -1,5 +1,9 @@
 name: Build and push Docker image to ghcr.io
 
+permissions:
+  packages: write
+  contents: read
+
 on:
   push:
   workflow_dispatch:

@@ -60,8 +60,8 @@ const searchLimiter = rateLimit({
   message: {
     error: 'Error: Too many requests. Please try again in a minute.'
   },
-  standardHeaders: true, 
-  legacyHeaders: false   
+  standardHeaders: true,
+  legacyHeaders: false
 });
 
 // 楽曲検索エンドポイント

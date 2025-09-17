@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // console.log(parsed)
     const hasUrl = hasUrlCheckBox.checked;
     const isKyushoku = isKyushokuCheckBox.checked;
-    resultArea.value = `${parsed.title} - ${parsed.artist}`; 
+    resultArea.value = `${parsed.title} - ${parsed.artist}`;
     if (hasUrl) {
         resultArea.value = resultArea.value + `\n${parsed.url}`;
     }

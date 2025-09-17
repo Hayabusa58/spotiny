@@ -46,10 +46,8 @@ const searchLimiter = rateLimit({
 // 楽曲検索エンドポイント
 app.post('/search', searchLimiter, async (req, res) => {
   const trackName: string = req.body.track;
-
   try {
     if (!accessToken) await getAccessToken();
-
     const result = await axios.get('https://api.spotify.com/v1/search', {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -60,7 +58,6 @@ app.post('/search', searchLimiter, async (req, res) => {
         limit: 10
       }
     });
-    // console.log(result.data.tracks.items)
     const tracks = result.data.tracks.items.map((track: any) => ({
       id: track.id,
       title: track.name,
@@ -70,7 +67,6 @@ app.post('/search', searchLimiter, async (req, res) => {
 
     res.json({ tracks });
   } catch (err) {
-    console.error('Error:', err);
     res.status(500).json({ error: 'Error while searching spotify.' });
   }
 });
@@ -78,4 +74,11 @@ app.post('/search', searchLimiter, async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on: http://localhost:${PORT} ...`);
   getAccessToken();
+  setInterval(() => {
+    getAccessToken().then(() => {
+      console.log('Refreshed Spotify access token.');
+    }).catch(err => {
+      console.error('Failed to refresh Spotify access token:', err);
+    });
+  }, 30 * 60 * 1000); // 30分ごとに refresh する
 });

@@ -25,9 +25,9 @@ logger.level = "info"
 
 // Web サーバのアクセスログ収集
 // 標準出力
-app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'))
+app.use(morgan(':remote-addr :req[CF-Connecting-IP] :req[X-Forwarded-For] - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'))
 // ファイル書き出し
-app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
+app.use(morgan(':remote-addr :req[CF-Connecting-IP] :req[X-Forwarded-For] - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
                  { stream: accessLogStream }))
 
 app.use(cors());

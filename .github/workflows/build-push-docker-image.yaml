@@ -79,6 +79,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: downcase REGISTRY_IMAGE
+        run: |
+          echo "REGISTRY_IMAGE=${REGISTRY_IMAGE,,}" >>${GITHUB_ENV}
+
       - uses: actions/download-artifact@v4
         with:
           path: /tmp/digests

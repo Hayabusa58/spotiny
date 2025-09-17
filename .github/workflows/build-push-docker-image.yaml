@@ -1,5 +1,9 @@
 name: Build and push Docker image to ghcr.io
 
+permissions:
+  packages: write
+  contents: read
+
 on:
   push:
   workflow_dispatch:
@@ -21,6 +25,10 @@ jobs:
             matrix.qemu: false
     runs-on: ${{ matrix.runner }}
     steps:
+      - name: downcase REGISTRY_IMAGE
+        run: |
+          echo "REGISTRY_IMAGE=${REGISTRY_IMAGE,,}" >>${GITHUB_ENV}
+
       - name: Set platform pair name
         run: |
           platform=${{ matrix.platform }}
@@ -71,6 +79,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: downcase REGISTRY_IMAGE
+        run: |
+          echo "REGISTRY_IMAGE=${REGISTRY_IMAGE,,}" >>${GITHUB_ENV}
+
       - uses: actions/download-artifact@v4
         with:
           path: /tmp/digests

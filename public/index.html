@@ -8,7 +8,7 @@
 
 <body>
   <h1>Spotify から曲情報を取ってくる君</h1>
-  <p>曲名を入力すると曲情報を取ってきて「曲名+アーティスト名」で出力します。</p>
+  <p>曲名を入力すると Spotify から曲情報を取得して「曲名+アーティスト名」で出力します。</p>
 
   <form id="searchForm">
     <label for="trackInput">曲名を入力:</label><br />
@@ -17,6 +17,9 @@
     <br />
     <input type="checkbox" id="hasUrl" />
     <label for="hasUrl">出力結果に楽曲URLを含む</label>
+    <br />
+    <input type="checkbox" id="isKyushoku" />
+    <label for="isKyushoku">給食の時間のリクエストである</label>
   </form>
 
   <br />

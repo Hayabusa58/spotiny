@@ -55,7 +55,7 @@ app.post('/search', searchLimiter, async (req, res) => {
       params: {
         q: trackName,
         type: 'track',
-        limit: 10
+        limit: 30
       }
     });
     const tracks = result.data.tracks.items.map((track: any) => ({

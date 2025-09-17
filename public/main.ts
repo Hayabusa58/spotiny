@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultArea = document.getElementById('resultArea') as HTMLTextAreaElement;
   const trackInput = document.getElementById('trackInput') as HTMLInputElement;
   const hasUrlCheckBox = document.getElementById('hasUrl') as HTMLInputElement;
+  const copyInputButton = document.getElementById('copyButton') as HTMLInputElement;
+  const copyResult = document.getElementById('copyResult') as HTMLDivElement;
+  const isKyushokuCheckBox = document.getElementById('isKyushoku') as HTMLInputElement;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -48,15 +51,21 @@ document.addEventListener('DOMContentLoaded', () => {
       resultArea.value = '';
       return;
     }
-
     const parsed: Track = JSON.parse(selected);
     // console.log(parsed)
     const hasUrl = hasUrlCheckBox.checked;
+    const isKyushoku = isKyushokuCheckBox.checked;
+    resultArea.value = `${parsed.title} - ${parsed.artist}`; 
     if (hasUrl) {
-        resultArea.value = `${parsed.title} - ${parsed.artist}\n${parsed.url}`;
-    } else {
-       resultArea.value = `${parsed.title} - ${parsed.artist}`; 
+        resultArea.value = resultArea.value + `\n${parsed.url}`;
     }
-    
+    if (isKyushoku) {
+        resultArea.value = "給食の時間のリクエスト\n\n" + resultArea.value;
+    }
   });
+
+  copyInputButton.addEventListener('click', () => {
+    navigator.clipboard.writeText(resultArea.value)
+    copyResult.innerHTML = "クリップボードにコピーしました。"
+  })
 });

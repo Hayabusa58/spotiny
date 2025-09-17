@@ -2,5 +2,6 @@ request_test.sh
 /node_modules
 .env
 /public/*.js
+/log
 *.js
 docker-compose.yml

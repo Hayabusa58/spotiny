@@ -2,6 +2,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# アクセスログ格納用ディレクトリの作成
+RUN mkdir log/
+
 COPY package*.json ./
 
 RUN npm install

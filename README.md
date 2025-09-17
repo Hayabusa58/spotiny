@@ -16,6 +16,9 @@
 $ cp .env.sample .env
 $ vi .env
 
+# ログ保存用ディレクトリの作成
+$ mkdir log
+
 # アプリケーションを起動する
 $ docker compose up -d
 ```

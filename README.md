@@ -7,17 +7,14 @@
 
 ## 使い方
 
-### with Docker
+* あらかじめ Spotify API の CLIENT_ID と CLIENT_SECRET を取得しておきます。
 
-あらかじめ Spotify API の CLIENT_ID と CLIENT_SECRET を取得しておきます。
+### with Docker
 
 ```shell
 # CLIENT_ID と CLIENT_SECRET を指定する
 $ cp .env.sample .env
 $ vi .env
-
-# 先ほどビルドしたイメージを指定する
-$ cp docker-compose.yml.sample docker-compose.yml
 
 # アプリケーションを起動する
 $ docker compose up -d

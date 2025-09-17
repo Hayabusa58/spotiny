@@ -1,6 +1,6 @@
 services:
   spotiny:
-    image: spotiny:latest
+    image: ghcr.io/hayabusa58/spotiny:main
     container_name: spotiny
     ports:
       - 3000:3000

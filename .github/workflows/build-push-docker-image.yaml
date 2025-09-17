@@ -21,6 +21,10 @@ jobs:
             matrix.qemu: false
     runs-on: ${{ matrix.runner }}
     steps:
+      - name: downcase REGISTRY_IMAGE
+        run: |
+          echo "REGISTRY_IMAGE=${REGISTRY_IMAGE,,}" >>${GITHUB_ENV}
+
       - name: Set platform pair name
         run: |
           platform=${{ matrix.platform }}

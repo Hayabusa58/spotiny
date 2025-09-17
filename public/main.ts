@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultArea = document.getElementById('resultArea') as HTMLTextAreaElement;
   const trackInput = document.getElementById('trackInput') as HTMLInputElement;
   const hasUrlCheckBox = document.getElementById('hasUrl') as HTMLInputElement;
+  const copyInputButton = document.getElementById('copyButton') as HTMLInputElement;
+  const copyResult = document.getElementById('copyResult') as HTMLDivElement;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -48,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
       resultArea.value = '';
       return;
     }
-
     const parsed: Track = JSON.parse(selected);
     // console.log(parsed)
     const hasUrl = hasUrlCheckBox.checked;
@@ -57,6 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
        resultArea.value = `${parsed.title} - ${parsed.artist}`; 
     }
-    
   });
+
+  copyInputButton.addEventListener('click', () => {
+    navigator.clipboard.writeText(resultArea.value)
+    copyResult.innerHTML = "クリップボードにコピーしました。"
+  })
 });

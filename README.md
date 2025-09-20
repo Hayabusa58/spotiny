@@ -7,7 +7,7 @@
 
 ## 使い方
 
-* あらかじめ Spotify API の CLIENT_ID と CLIENT_SECRET を取得しておきます。
+* あらかじめ Spotify API の `CLIENT_ID` と `CLIENT_SECRET` を取得しておきます。
 
 ### with Docker
 
@@ -15,9 +15,6 @@
 # CLIENT_ID と CLIENT_SECRET を指定する
 $ cp .env.sample .env
 $ vi .env
-
-# ログ保存用ディレクトリの作成
-$ mkdir log
 
 # アプリケーションを起動する
 $ docker compose up -d

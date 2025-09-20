@@ -4,4 +4,3 @@ request_test.sh
 /public/*.js
 /log
 *.js
-docker-compose.yml

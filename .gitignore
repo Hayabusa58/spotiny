@@ -3,4 +3,3 @@ request_test.sh
 .env
 /public/*.js
 *.js
-docker-compose.yml

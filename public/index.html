@@ -3,47 +3,63 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Spotify から曲情報を取ってくる君</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css" />
+  <script src="main.js" defer></script>
+  <style>
+    .fill-inline {
+      box-sizing: border-box;
+      width: 100%;
+    }
+    hr.shorter {
+      margin: 2rem 10%;
+    }
+  </style>
 </head>
 
 <body>
   <h1>Spotify から曲情報を取ってくる君</h1>
-  <p>曲名を入力すると Spotify から曲情報を取得して「曲名+アーティスト名」で出力します。<br />
-    曲への URL をつけることもできます。</p>
+  <p>
+  曲名を入力すると Spotify から曲情報を取得して「曲名+アーティスト名」で出力します。<br />
+  曲への URL をつけることもできます。
+  </p>
 
   <form id="searchForm">
-    <label for="trackInput">曲名を入力:</label><br />
-    <input type="text" id="trackInput" required />
-    <button type="submit">検索</button>
-    <br />
-    <input type="checkbox" id="hasUrl" />
-    <label for="hasUrl">出力結果に楽曲URLを含む</label>
-    <br />
-    <input type="checkbox" id="isKyushoku" />
-    <label for="isKyushoku">給食の時間のリクエストである</label>
+    <div>
+      <label for="trackInput">曲名を入力:</label>
+      <input type="text" id="trackInput" class="fill-inline" required />
+      <button type="submit" class="fill-inline">検索</button>
+    </div>
+    <div>
+      <input type="checkbox" id="hasUrl" />
+      <label for="hasUrl">出力結果に楽曲 URL を含む</label>
+    </div>
+    <div>
+      <input type="checkbox" id="isKyushoku" />
+      <label for="isKyushoku">給食の時間のリクエストである</label>
+    </div>
   </form>
 
-  <br />
+  <hr class="shorter" />
 
-  <label for="trackSelect">検索結果:</label><br />
-  <select id="trackSelect" size="20">
-    <option value="">-- 検索結果から選択 --</option>
-  </select>
+  <div>
+    <label for="trackSelect">検索結果:</label>
+    <select id="trackSelect" size="20" class="fill-inline">
+      <option value="">-- 検索結果から選択 --</option>
+    </select>
+  </div>
 
-  <br />
+  <hr class="shorter" />
 
-  <br />
-  <textarea id="resultArea" rows="5" cols="70" readonly placeholder="出力結果…"></textarea>
-  <br />
-  <button id="copyButton">クリップボードにコピー</button>
-  <div id="copyResult"></div>
-  <script src="main.js"></script>
+  <div>
+    <textarea id="resultArea" rows="5" cols="70" readonly placeholder="出力結果…" class="fill-inline"></textarea>
+    <button id="copyButton" class="fill-inline">クリップボードにコピー</button>
+    <div id="copyResult"></div>
+  </div>
+  <footer>
+    © 2025 Hayabusa58<br />
+    <a href="https://github.com/Hayabusa58/spotiny">github.com/Hayabusa58/spotiny</a>
+  </footer>
 </body>
-
-<br />
-<footer>
-  © 2025- Hayabusa58 <br />
-  <a href="https://github.com/Hayabusa58/spotiny">github.com/Hayabusa58/spotiny</a>
-</footer>
-
 </html>

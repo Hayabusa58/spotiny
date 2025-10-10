@@ -32,9 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const data = await res.json();
 
-    trackSelect.innerHTML = '<option value="">-- 検索結果から選択 --</option>';
-
     if (data.tracks && data.tracks.length > 0) {
+      // ヒット数に応じて trackselect.Size を変えるが、30を超えないようにする
+      if (data.tracks.length > 30 ) {
+        trackSelect.size = 30;
+      } else {
+        trackSelect.size = data.tracks.length;
+      }
+
       data.tracks.forEach((track: Track) => {
         const option = document.createElement('option');
         option.value = JSON.stringify(track);

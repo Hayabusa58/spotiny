@@ -82,13 +82,13 @@ app.post('/search', searchLimiter, async (req, res) => {
         // market: 'JP'
       }
     });
+    // param detail: https://developer.spotify.com/documentation/web-api/reference/search
     const tracks = result.data.tracks.items.map((track: any) => ({
       id: track.id,
       title: track.name,
       artist: track.artists.map((a: any) => a.name).join(', '),
       url: `https://open.spotify.com/${track.uri.split(':')[1]}/${track.uri.split(':')[2]}`
     }));
-
     res.json({ tracks });
   } catch (err) {
     res.status(500).json({ error: 'Error while searching spotify.' });

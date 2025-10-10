@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyInputButton = document.getElementById('copyButton') as HTMLInputElement;
   const copyResult = document.getElementById('copyResult') as HTMLDivElement;
   const isKyushokuCheckBox = document.getElementById('isKyushoku') as HTMLInputElement;
+  const isOyatsuCheckBox = document.getElementById('isOyatsu') as HTMLInputElement;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -55,13 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // console.log(parsed)
     const hasUrl = hasUrlCheckBox.checked;
     const isKyushoku = isKyushokuCheckBox.checked;
-    resultArea.value = `${parsed.title} - ${parsed.artist}`;
+    const isOyatsu = isOyatsuCheckBox.checked;
+    let result = `${parsed.title} - ${parsed.artist}`;
+    let request = '';
     if (hasUrl) {
-        resultArea.value = resultArea.value + `\n${parsed.url}`;
+        result = result + `\n${parsed.url}`;
     }
     if (isKyushoku) {
-        resultArea.value = "給食の時間のリクエスト\n\n" + resultArea.value;
+        request = "給食の時間のリクエスト\n\n";
     }
+    if (isOyatsu) {
+        request = "おやつの時間のリクエスト\n\n";
+    }
+    resultArea.value = request + result;
   });
 
   copyInputButton.addEventListener('click', () => {

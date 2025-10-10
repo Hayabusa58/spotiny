@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isOyatsuCheckBox = document.getElementById('isOyatsu') as HTMLInputElement;
 
   form.addEventListener('submit', async (e) => {
+    trackSelect.innerHTML = '';
     e.preventDefault();
 
     const trackName = trackInput.value;

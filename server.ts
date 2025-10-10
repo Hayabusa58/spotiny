@@ -67,16 +67,19 @@ const searchLimiter = rateLimit({
 // 楽曲検索エンドポイント
 app.post('/search', searchLimiter, async (req, res) => {
   const trackName: string = req.body.track;
+  const lang: string = req.body.lang || "ja;q=1";
   try {
     if (!accessToken) await getAccessToken();
     const result = await axios.get('https://api.spotify.com/v1/search', {
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang
       },
       params: {
         q: trackName,
         type: 'track',
-        limit: 30
+        limit: 30,
+        // market: 'JP'
       }
     });
     const tracks = result.data.tracks.items.map((track: any) => ({

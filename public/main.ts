@@ -20,12 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const trackName = trackInput.value;
+    // ブラウザの言語
+    const lang = navigator.language || "ja";
     const res = await fetch('/search', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ track: trackName })
+      body: JSON.stringify({ track: trackName, lang })
     });
 
     const data = await res.json();

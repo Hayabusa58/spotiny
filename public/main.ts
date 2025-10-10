@@ -49,6 +49,27 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   trackSelect.addEventListener('change', () => {
+    applyResultArea();
+  });
+
+  copyInputButton.addEventListener('click', () => {
+    navigator.clipboard.writeText(resultArea.value)
+    copyResult.innerHTML = "クリップボードにコピーしました。"
+  })
+
+  hasUrlCheckBox.addEventListener('change', () => {
+    applyResultArea();
+  })
+
+  isKyushokuCheckBox.addEventListener('change', () => {
+    applyResultArea();
+  } )
+
+  isOyatsuCheckBox.addEventListener('change', () => {
+    applyResultArea();
+  })
+
+  function applyResultArea () {
     const selected = trackSelect.value;
     if (!selected) {
       resultArea.value = '';
@@ -71,10 +92,5 @@ document.addEventListener('DOMContentLoaded', () => {
         request = "おやつの時間のリクエスト\n\n";
     }
     resultArea.value = request + result;
-  });
-
-  copyInputButton.addEventListener('click', () => {
-    navigator.clipboard.writeText(resultArea.value)
-    copyResult.innerHTML = "クリップボードにコピーしました。"
-  })
+  }
 });

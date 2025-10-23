@@ -87,6 +87,7 @@ app.post('/search', searchLimiter, async (req, res) => {
       id: track.id,
       title: track.name,
       artist: track.artists.map((a: any) => a.name).join(', '),
+      album: track.album.name,
       url: `https://open.spotify.com/${track.uri.split(':')[1]}/${track.uri.split(':')[2]}`
     }));
     res.json({ tracks });

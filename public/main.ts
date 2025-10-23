@@ -3,6 +3,7 @@ interface Track {
   title: string;
   artist: string;
   url: string;
+  album?: string;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyResult = document.getElementById('copyResult') as HTMLDivElement;
   const isKyushokuCheckBox = document.getElementById('isKyushoku') as HTMLInputElement;
   const isOyatsuCheckBox = document.getElementById('isOyatsu') as HTMLInputElement;
+  const isAlbumCheckBox = document.getElementById('isAlbum') as HTMLInputElement;
 
   form.addEventListener('submit', async (e) => {
     trackSelect.innerHTML = '';
@@ -44,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       data.tracks.forEach((track: Track) => {
         const option = document.createElement('option');
         option.value = JSON.stringify(track);
-        option.textContent = `${track.title} - ${track.artist}`;
+        option.textContent = `${track.title} - ${track.artist} (${track.album})`;
         trackSelect.appendChild(option);
       });
 
@@ -75,6 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
     applyResultArea();
   })
 
+  isAlbumCheckBox.addEventListener('change', () => {
+    applyResultArea();
+  })
+
   function applyResultArea () {
     const selected = trackSelect.value;
     if (!selected) {
@@ -86,8 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const hasUrl = hasUrlCheckBox.checked;
     const isKyushoku = isKyushokuCheckBox.checked;
     const isOyatsu = isOyatsuCheckBox.checked;
+    const isAlbum = isAlbumCheckBox.checked;
     let result = `${parsed.title} - ${parsed.artist}`;
     let request = '';
+    if (isAlbum) {
+      result = result + ` (${parsed.album})`;
+    }
     if (hasUrl) {
         result = result + `\n${parsed.url}`;
     }

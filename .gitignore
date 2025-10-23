@@ -3,3 +3,4 @@ request_test.sh
 .env
 /public/*.js
 *.js
+compose.override.yaml

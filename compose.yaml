@@ -1,6 +1,8 @@
 services:
   spotiny:
     image: ghcr.io/hayabusa58/spotiny:main
+    # or, you can specify image version
+    # image: ghcr.io/hayabusa58/spotiny:$IMAGE_VERSION
     container_name: spotiny
     ports:
       - 3000:3000
@@ -12,3 +14,4 @@ services:
     environment:
       SPOTIFY_CLIENT_ID: $SPOTIFY_CLIENT_ID
       SPOTIFY_CLIENT_SECRET: $SPOTIFY_CLIENT_SECRET
+      # IMAGE_VERSION: $IMAGE_VERSION

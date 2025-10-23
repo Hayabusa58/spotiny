@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyResult = document.getElementById('copyResult') as HTMLDivElement;
   const isKyushokuCheckBox = document.getElementById('isKyushoku') as HTMLInputElement;
   const isOyatsuCheckBox = document.getElementById('isOyatsu') as HTMLInputElement;
+  const isDinnerCheckBox = document.getElementById('isDinner') as HTMLInputElement;
   const isAlbumCheckBox = document.getElementById('isAlbum') as HTMLInputElement;
 
   form.addEventListener('submit', async (e) => {
@@ -77,6 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
     applyResultArea();
   })
 
+  isDinnerCheckBox.addEventListener('change', () => {
+    applyResultArea();
+  })
+
   isAlbumCheckBox.addEventListener('change', () => {
     applyResultArea();
   })
@@ -91,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // console.log(parsed)
     const hasUrl = hasUrlCheckBox.checked;
     const isKyushoku = isKyushokuCheckBox.checked;
+    const isDinner = isDinnerCheckBox.checked;
     const isOyatsu = isOyatsuCheckBox.checked;
     const isAlbum = isAlbumCheckBox.checked;
     let result = `${parsed.title} - ${parsed.artist}`;
@@ -99,13 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
       result = result + ` (${parsed.album})`;
     }
     if (hasUrl) {
-        result = result + `\n${parsed.url}`;
+      result = result + `\n${parsed.url}`;
     }
     if (isKyushoku) {
-        request = "給食の時間のリクエスト\n\n";
+      request = "給食の時間のリクエスト\n\n";
     }
     if (isOyatsu) {
-        request = "おやつの時間のリクエスト\n\n";
+      request = "おやつの時間のリクエスト\n\n";
+    }
+    if (isDinner) {
+      request = "夕食の時間のリクエスト\n\n"
     }
     resultArea.value = request + result;
   }

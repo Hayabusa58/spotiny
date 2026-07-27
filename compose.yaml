@@ -1,8 +1,8 @@
 services:
   spotiny:
-    image: ghcr.io/hayabusa58/spotiny:main
+    image: ghcr.io/haya58/spotiny:main
     # or, you can specify image version
-    # image: ghcr.io/hayabusa58/spotiny:$IMAGE_VERSION
+    # image: ghcr.io/haya58/spotiny:$IMAGE_VERSION
     container_name: spotiny
     ports:
       - 3000:3000

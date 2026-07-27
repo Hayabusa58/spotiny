@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
-import rateLimit from 'express-rate-limit'
+import rateLimit from 'express-rate-limit';
 import log4js from 'log4js';
 
 dotenv.config();
@@ -15,20 +15,28 @@ const PORT = 3000;
 
 let accessToken: string = '';
 
-const accessLogStream = fs.createWriteStream(
-  path.join('./log', 'access.log'), { flags: 'a' }
-);
+const accessLogStream = fs.createWriteStream(path.join('./log', 'access.log'), {
+  flags: 'a'
+});
 
 // アプリケーションのロギング設定
 const logger = log4js.getLogger();
-logger.level = "info"
+logger.level = 'info';
 
 // Web サーバのアクセスログ収集
 // 標準出力
-app.use(morgan(':remote-addr :req[CF-Connecting-IP] :req[X-Forwarded-For] - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'))
+app.use(
+  morgan(
+    ':remote-addr :req[CF-Connecting-IP] :req[X-Forwarded-For] - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'
+  )
+);
 // ファイル書き出し
-app.use(morgan(':remote-addr :req[CF-Connecting-IP] :req[X-Forwarded-For] - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
-                 { stream: accessLogStream }))
+app.use(
+  morgan(
+    ':remote-addr :req[CF-Connecting-IP] :req[X-Forwarded-For] - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
+    { stream: accessLogStream }
+  )
+);
 
 app.use(cors());
 app.use(express.static('public'));
@@ -44,7 +52,9 @@ async function getAccessToken(): Promise<void> {
     new URLSearchParams({ grant_type: 'client_credentials' }),
     {
       headers: {
-        Authorization: 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64'),
+        Authorization:
+          'Basic ' +
+          Buffer.from(`${clientId}:${clientSecret}`).toString('base64'),
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }
@@ -67,7 +77,7 @@ const searchLimiter = rateLimit({
 // 楽曲検索エンドポイント
 app.post('/search', searchLimiter, async (req, res) => {
   const trackName: string = req.body.track;
-  const lang: string = req.body.lang || "ja;q=1";
+  const lang: string = req.body.lang || 'ja;q=1';
   try {
     if (!accessToken) {
       try {
@@ -80,26 +90,34 @@ app.post('/search', searchLimiter, async (req, res) => {
     const result = await axios.get('https://api.spotify.com/v1/search', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Accept-Language": lang
+        'Accept-Language': lang
       },
       params: {
         q: trackName,
         type: 'track',
-        limit: 30,
+        limit: 30
         // market: 'JP'
       }
     });
     // param detail: https://developer.spotify.com/documentation/web-api/reference/search
-    const tracks = result.data.tracks.items.map((track: any) => ({
-      id: track.id,
-      title: track.name,
-      artist: track.artists.map((a: any) => a.name).join(', '),
-      album: track.album.name,
-      url: `https://open.spotify.com/${track.uri.split(':')[1]}/${track.uri.split(':')[2]}`
-    }));
+    const tracks = result.data.tracks.items.map(
+      (track: {
+        id: string;
+        name: string;
+        artists: { name: string }[];
+        album: { name: string };
+        uri: string;
+      }) => ({
+        id: track.id,
+        title: track.name,
+        artist: track.artists.map((a) => a.name).join(', '),
+        album: track.album.name,
+        url: `https://open.spotify.com/${track.uri.split(':')[1]}/${track.uri.split(':')[2]}`
+      })
+    );
     res.json({ tracks });
-  } catch (err: any) {
-    const status = err.response?.status;
+  } catch (err: unknown) {
+    const status = (err as { response?: { status?: number } }).response?.status;
     let errorCode: string;
 
     if (status === 401 || status === 403) {
@@ -120,11 +138,15 @@ app.post('/search', searchLimiter, async (req, res) => {
 app.listen(PORT, () => {
   logger.info(`Listening on: http://localhost:${PORT}`);
   getAccessToken();
-  setInterval(() => {
-    logger.info('Starting refresh spotify access token...')
-    getAccessToken().then(() => {
-    }).catch(err => {
-      logger.error('Failed to refresh Spotify access token:', err);
-    });
-  }, 30 * 60 * 1000); // 30分ごとに refresh する
+  setInterval(
+    () => {
+      logger.info('Starting refresh spotify access token...');
+      getAccessToken()
+        .then(() => {})
+        .catch((err) => {
+          logger.error('Failed to refresh Spotify access token:', err);
+        });
+    },
+    30 * 60 * 1000
+  ); // 30分ごとに refresh する
 });

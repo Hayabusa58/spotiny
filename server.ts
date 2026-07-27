@@ -55,10 +55,10 @@ async function getAccessToken(): Promise<void> {
 
 // /search にたいするレートリミット設定
 const searchLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1分
-  max: 60,             // 最大60回/分
+  windowMs: 60 * 1000,
+  max: 60,
   message: {
-    error: 'Error: Too many requests. Please try again in a minute.'
+    errorCode: 'APP_RATE_LIMIT'
   },
   standardHeaders: true,
   legacyHeaders: false

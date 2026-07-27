@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const errorMessages: Record<string, string> = {
+      APP_RATE_LIMIT: '⚠️ リクエストが多すぎます。1分間待ってから再試行してください。',
       SPOTIFY_AUTH_ERROR: '⚠️ Spotify API の認証に失敗しました。',
       SPOTIFY_RATE_LIMIT: '⚠️ Spotify API のリクエスト制限に達しました。しばらく待ってから再試行してください。',
       SPOTIFY_SERVER_ERROR: '⚠️ Spotify API に問題が発生している可能性があります。',

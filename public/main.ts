@@ -23,18 +23,37 @@ document.addEventListener('DOMContentLoaded', () => {
     trackSelect.innerHTML = '';
     e.preventDefault();
 
+    const errorMessages: Record<string, string> = {
+      SPOTIFY_AUTH_ERROR: 'Spotify API の認証に失敗しました。',
+      SPOTIFY_RATE_LIMIT: 'Spotify API のリクエスト制限に達しました。しばらく待ってから再試行してください。',
+      SPOTIFY_SERVER_ERROR: 'Spotify のサービスで一時的な問題が発生しています。',
+      UNKNOWN_ERROR: '検索中に予期しないエラーが発生しました。',
+    };
+
     const trackName = trackInput.value;
-    // ブラウザの言語
     const lang = navigator.language || "ja";
-    const res = await fetch('/search', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ track: trackName, lang })
-    });
+
+    let res: Response;
+    try {
+      res = await fetch('/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ track: trackName, lang })
+      });
+    } catch (e) {
+      resultArea.value = 'サーバーへの接続に失敗しました。ネットワーク接続を確認してください。';
+      return;
+    }
 
     const data = await res.json();
+
+    if (!res.ok) {
+      const code = data.errorCode || 'UNKNOWN_ERROR';
+      resultArea.value = errorMessages[code] || errorMessages.UNKNOWN_ERROR;
+      return;
+    }
 
     if (data.tracks && data.tracks.length > 0) {
       // ヒット数に応じて trackselect.Size を変えるが、30を超えないようにする

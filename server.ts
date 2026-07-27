@@ -69,7 +69,14 @@ app.post('/search', searchLimiter, async (req, res) => {
   const trackName: string = req.body.track;
   const lang: string = req.body.lang || "ja;q=1";
   try {
-    if (!accessToken) await getAccessToken();
+    if (!accessToken) {
+      try {
+        await getAccessToken();
+      } catch (tokenErr) {
+        logger.error('Failed to get access token: ', tokenErr);
+        return res.status(502).json({ errorCode: 'SPOTIFY_AUTH_ERROR' });
+      }
+    }
     const result = await axios.get('https://api.spotify.com/v1/search', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -91,9 +98,22 @@ app.post('/search', searchLimiter, async (req, res) => {
       url: `https://open.spotify.com/${track.uri.split(':')[1]}/${track.uri.split(':')[2]}`
     }));
     res.json({ tracks });
-  } catch (err) {
-    res.status(500).json({ error: 'Error while searching spotify.' });
-    logger.error('Failed to search track infomation from spotify: ', err)
+  } catch (err: any) {
+    const status = err.response?.status;
+    let errorCode: string;
+
+    if (status === 401 || status === 403) {
+      errorCode = 'SPOTIFY_AUTH_ERROR';
+    } else if (status === 429) {
+      errorCode = 'SPOTIFY_RATE_LIMIT';
+    } else if (status && status >= 500) {
+      errorCode = 'SPOTIFY_SERVER_ERROR';
+    } else {
+      errorCode = 'UNKNOWN_ERROR';
+    }
+
+    res.status(502).json({ errorCode });
+    logger.error(`Spotify API error (status: ${status || 'unknown'})`);
   }
 });
 

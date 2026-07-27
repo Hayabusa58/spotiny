@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const errorMessages: Record<string, string> = {
-      SPOTIFY_AUTH_ERROR: 'Spotify API の認証に失敗しました。',
-      SPOTIFY_RATE_LIMIT: 'Spotify API のリクエスト制限に達しました。しばらく待ってから再試行してください。',
-      SPOTIFY_SERVER_ERROR: 'Spotify のサービスで一時的な問題が発生しています。',
-      UNKNOWN_ERROR: '検索中に予期しないエラーが発生しました。',
+      SPOTIFY_AUTH_ERROR: '⚠️ Spotify API の認証に失敗しました。',
+      SPOTIFY_RATE_LIMIT: '⚠️ Spotify API のリクエスト制限に達しました。しばらく待ってから再試行してください。',
+      SPOTIFY_SERVER_ERROR: '⚠️ Spotify API に問題が発生している可能性があります。',
+      UNKNOWN_ERROR: '⚠️ 曲情報検索中に予期しないエラーが発生しました。',
     };
 
     const trackName = trackInput.value;
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ track: trackName, lang })
       });
     } catch (e) {
-      resultArea.value = 'サーバーへの接続に失敗しました。ネットワーク接続を確認してください。';
+      resultArea.value = '⚠️ サーバーへの接続に失敗しました。ネットワーク接続を確認してください。';
       return;
     }
 

@@ -3,4 +3,5 @@ request_test.sh
 .env
 /public/*.js
 *.js
+!eslint.config.js
 compose.override.yaml

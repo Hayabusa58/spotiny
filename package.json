@@ -6,7 +6,11 @@
   "scripts": {
     "build-server": "tsc",
     "build-client": "tsc public/*.ts",
-    "start": "ts-node server.ts"
+    "start": "ts-node server.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write '**/*.ts'",
+    "format:check": "prettier --check '**/*.ts'"
   },
   "author": "Hayabusa58",
   "license": "ISC",
@@ -25,6 +29,11 @@
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }
